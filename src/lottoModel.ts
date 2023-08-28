@@ -1,0 +1,3 @@
+export const lottoModel = {"totalRows":0,"items":[{"drawSystemId":6927,"drawDate":"2023-08-26T22:00:00Z","gameType":"Lotto","multiplierValue":0,"results":[{"drawDate":"2023-08-26T22:00:00Z","drawSystemId":6927,"gameType":"Lotto","resultsJson":[30,22,47,26,20,25],"specialResults":[]},{"drawDate":"2023-08-26T22:00:00Z","drawSystemId":6927,"gameType":"LottoPlus","resultsJson":[3,31,19,2,21,39],"specialResults":[]}],"showSpecialResults":true,"isNewEuroJackpotDraw":false}],"meta":{},"code":200}
+
+export type LottoModel = typeof lottoModel;
