@@ -4,34 +4,38 @@ type Status = 'success' | 'loading' | 'fail';
 
 export interface Query<T> {
   status: Status;
-  data:  T | string | Promise<T>;
+  data: T | Promise<T>;
+  error: string;
 }
 
-export const useQuery = <T>(url: string, initialValue:Query<T>["data"]): Query<T> => {
+export const useQuery = <T>(
+  url: string,
+  initialValue: Query<T>['data']
+): Query<T> => {
   const [status, setStatus] = React.useState<Status>('loading');
-  const [data, setData] = React.useState<Query<T>['data']>();
+  const [data, setData] = React.useState<Query<T>['data']>(initialValue);
+  const [error, setError] = React.useState<Query<T>['error']>();
 
   React.useEffect(() => {
-    setData(initialValue);
-    const apiData:Query<T>['data'] = query();
+    query(url);
   }, []);
 
   React.useEffect(() => {
-    const apiData:Query<T>['data'] = query();
+    query(url);
   }, [url]);
 
-
-  const query = async <T,>():Promise<T> => {
-    const response = await fetch(url)
-      .then((res) => res.json() as Promise<T>)
-      .then(res => {setStatus('success');return res})
-      .catch((err) => {
-        return "connection problem";
+  const query = async (url: string) => {
+    await fetch(url)
+      .then((res) => {
+        if (res.ok) {
+          console.log(res);
+          setData(res.json() as Query<T>['data']);
+          setStatus('success');
+        } else throw new Error('error');
+      })
+      .catch(() => {
+        setError('connection problem');
       });
-    
-    
-
-    return response as T;
   };
-  return { status: status, data: data } as const;
+  return { status: status, data: data, error: error } as const;
 };
