@@ -18,7 +18,8 @@ const lottoResults = data.items[0].results[0].resultsJson.map((el, index) => <sp
 const lottoDate = new Date(data?.items[0].results[0].drawDate)
   return (
     <div>
-      <h1>Lotto </h1>
+      <h1>Lotto</h1>  {status !== "success" && <span style={{fontSize: "15px"}}>...{status}</span>}
+    
       <h4>{`0${lottoDate.getDate()}`.slice(-2)} - {`0${lottoDate.getMonth()}`.slice(-2)} - {lottoDate.getFullYear()}</h4>
       <p>{lottoResults}</p>
     </div>

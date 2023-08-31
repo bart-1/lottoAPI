@@ -25,17 +25,14 @@ export const useQuery = <T>(
   }, [url]);
 
   const query = async (url: string) => {
-    await fetch(url)
+ await fetch(url)
+      .then((res) => res.json())
       .then((res) => {
-        if (res.ok) {
-          console.log(res);
-          setData(res.json() as Query<T>['data']);
-          setStatus('success');
-        } else throw new Error('error');
+        setData(res);
+        setStatus('success');
       })
       .catch(() => {
         setError('connection problem');
       });
-  };
   return { status: status, data: data, error: error } as const;
 };
