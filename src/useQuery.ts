@@ -8,7 +8,7 @@ export interface Query<T> {
   error: string;
 }
 
-export const useQuery = <T>(
+export const useQuery = <T,>(
   url: string,
   initialValue: Query<T>['data']
 ): Query<T> => {
@@ -25,7 +25,7 @@ export const useQuery = <T>(
   }, [url]);
 
   const query = async (url: string) => {
- await fetch(url)
+    await fetch(url)
       .then((res) => res.json())
       .then((res) => {
         setData(res);
@@ -34,5 +34,6 @@ export const useQuery = <T>(
       .catch(() => {
         setError('connection problem');
       });
+  };
   return { status: status, data: data, error: error } as const;
 };
